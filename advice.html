@@ -1,0 +1,99 @@
+<html>
+
+<head>
+        <title>Advice</title>
+        
+    <meta charset="utf-8">
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+        
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+
+
+        <div class="jumbotron text-center">
+                <h1 style="color:#99ddff;font-size: 100px">Nice Advice</h1>
+            
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" id="searchTerm" placeholder="search here...">
+                <input type="button" id="randomAd" onclick="searchForAdvice()" value="search" style="color:#99ddff">
+                <p id="searchoutput"></p>
+
+            </div>
+
+            <div class="col-sm-6">
+                <input type="button" value="Get Random Advice " id="randomAd" onclick="getARandomAdvice()" style="color:#99ddff">
+                <p id="randomoutput"></p>
+            </div>
+        </div>
+
+        <hr>
+
+
+
+          <p class="fixed-bottom" style="text-align: center">
+                        More on this topic can be found at <a href="https://api.adviceslip.com/advice"> Advice API
+            </a>
+            <br> By Isabella Pearce 2020
+                    </p>
+
+        <script>
+            function searchForAdvice() {
+                let searchTerm = document.getElementById('searchTerm').value;
+                console.log(searchTerm);
+                let url = 'https://api.adviceslip.com/advice/search/' + searchTerm;
+                fetch(url)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((myJson) => {
+                        console.log(myJson);
+                        let slips = myJson.slips;
+                        let p = document.getElementById('searchoutput');
+                        p.innerHTML = "";
+                        for (var i = 0; i < slips.length; i++) {
+                            let advice = slips[i];
+                            p.innerHTML += "Advice:  " + advice.advice + "<br>";
+
+                            //figure out how to print in rows when multiple search results appear 
+                        }
+
+                    });
+            }
+
+            function getARandomAdvice() {
+                let randomAd = document.getElementById('randomAd').value;
+                console.log(randomAd);
+                let url = 'https://api.adviceslip.com/advice';
+                fetch(url)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((myJson) => {
+                        console.log(myJson);
+                        let slip = myJson.slip;
+                        let p = document.getElementById('randomoutput');
+                        for (var i = 0; i < slip.length; i++); {
+                            let advice = slip[i];
+                            p.innerHTML = "Advice:  " + slip.advice + "<br>";
+                        }
+                    });
+
+            }
+
+        </script>
+
+
+
+</body>
+
+</html>
